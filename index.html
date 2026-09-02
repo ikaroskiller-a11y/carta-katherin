@@ -168,14 +168,14 @@
     margin-top: 22px;
     text-align: center;
     font-style: italic;
-    font-size: 13.5px;
-    letter-spacing: 0.5px;
-    color: rgba(111, 67, 33, 0.55);
+    font-size: 14px;
+    letter-spacing: 0.6px;
+    color: rgba(111, 67, 33, 0.72);
     opacity: 0;
     transition: opacity 1.4s ease;
   }
   .secret-hint.on { opacity: 1; animation: hintPulse 3s ease-in-out infinite; }
-  @keyframes hintPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+  @keyframes hintPulse { 0%,100% { opacity: 0.55; } 50% { opacity: 0.95; } }
 
   .stage { animation: rise 1100ms ease-out both; }
   @keyframes rise {
@@ -328,7 +328,8 @@
 
   .reveal__back {
     display: block;
-    margin: 28px auto 0;
+    margin: 22px auto 0;
+    padding: 12px 18px;
     background: none;
     border: none;
     color: rgba(244, 233, 215, 0.6);
