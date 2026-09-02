@@ -254,7 +254,7 @@
     50% { box-shadow: 0 6px 18px rgba(60, 38, 18, 0.28), 0 0 0 10px rgba(138, 90, 60, 0.12); }
   }
 
-  /* revelacion */
+  /* revelacion: nota escondida */
   .reveal {
     position: fixed;
     inset: 0;
@@ -262,78 +262,88 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8vh 22px calc(9vh + env(safe-area-inset-bottom, 0px));
+    padding: 7vh 20px calc(8vh + env(safe-area-inset-bottom, 0px));
     overflow-y: auto;
     background:
-      radial-gradient(circle at 50% 32%, rgba(74, 44, 22, 0.90), rgba(20, 12, 8, 0.96));
-    -webkit-backdrop-filter: blur(3px);
-    backdrop-filter: blur(3px);
+      radial-gradient(circle at 50% 34%, rgba(58, 36, 18, 0.52), rgba(32, 20, 10, 0.78));
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
     opacity: 0;
     transition: opacity 0.6s ease;
   }
   .reveal[hidden] { display: none; }
   .reveal.show { opacity: 1; }
 
-  .reveal__inner {
-    max-width: 30rem;
+  .note {
+    position: relative;
+    max-width: 27rem;
     width: 100%;
     text-align: center;
-    color: #f4e9d7;
-    transform: translateY(14px) scale(0.97);
+    padding: clamp(30px, 8vw, 52px) clamp(24px, 7vw, 46px);
+    background:
+      radial-gradient(78% 55% at 22% 14%, rgba(255, 255, 255, 0.32), transparent 60%),
+      linear-gradient(158deg, var(--paper), var(--paper-shade));
+    border-radius: 3px;
+    box-shadow:
+      0 2px 0 rgba(255, 255, 255, 0.35) inset,
+      0 0 70px rgba(74, 43, 18, 0.22) inset,
+      0 26px 60px rgba(30, 18, 8, 0.5);
+    transform: translateY(16px) scale(0.96) rotate(-1.2deg);
     transition: transform 0.6s ease;
   }
-  .reveal.show .reveal__inner { transform: none; }
+  .reveal.show .note { transform: rotate(-1.2deg); }
+  .note::before {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    border: 1px solid rgba(120, 84, 52, 0.35);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .note__sprig {
+    position: absolute;
+    width: clamp(56px, 16vw, 82px);
+    top: -10px;
+    right: -6px;
+    opacity: 0.5;
+    transform: rotate(168deg);
+    pointer-events: none;
+  }
 
-  .reveal__accent {
+  .note__pd {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(22px, 6vw, 28px);
+    letter-spacing: 2px;
+    color: var(--coffee);
+    margin-bottom: 14px;
+  }
+  .note p {
+    font-size: clamp(16px, 4.2vw, 18.5px);
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .note .accent {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .note .sign {
     font-family: "Pinyon Script", cursive;
-    font-size: clamp(30px, 9vw, 44px);
-    color: #e7b3a2;
-    margin-bottom: 10px;
+    font-size: clamp(30px, 8vw, 40px);
+    color: var(--ink);
+    line-height: 1;
+    margin-top: 10px;
   }
-  .reveal__heart { width: 26px; margin: 6px auto 20px; display: block; opacity: 0.9; }
-  .reveal p {
-    font-size: clamp(16.5px, 4.4vw, 19px);
-    line-height: 1.75;
-    margin-bottom: 16px;
-    color: #efe3d1;
-  }
-  .reveal__q {
-    font-family: "Cormorant Garamond", serif;
-    font-weight: 500;
-    font-size: clamp(24px, 7.5vw, 34px);
-    color: #fff;
-    margin: 20px 0 12px;
-    letter-spacing: 0.4px;
-  }
-  .reveal__soft { font-style: italic; color: #d9c6b1; }
-  .reveal .sign { color: #f4e9d7; }
-
-  .reveal__yes {
-    margin-top: 22px;
-    min-height: 52px;
-    padding: 14px 52px;
-    font-family: "Cormorant Garamond", serif;
-    font-size: 21px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #2a1a10;
-    background: #ecdcc0;
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
-    transition: transform 0.2s ease, background 0.2s ease;
-  }
-  .reveal__yes:hover { background: #f6ead2; }
-  .reveal__yes:active { transform: scale(0.95); }
 
   .reveal__back {
     display: block;
-    margin: 22px auto 0;
+    margin: 20px auto 0;
     padding: 12px 18px;
     background: none;
     border: none;
-    color: rgba(244, 233, 215, 0.6);
+    color: rgba(244, 233, 215, 0.66);
     font-family: "EB Garamond", serif;
     font-size: 15px;
     font-style: italic;
@@ -341,74 +351,6 @@
     text-underline-offset: 3px;
     cursor: pointer;
   }
-
-  .reveal__step[hidden] { display: none; }
-
-  .monogram {
-    position: relative;
-    width: clamp(120px, 34vw, 168px);
-    margin: 4px auto 18px;
-  }
-  .monogram::before {
-    content: "";
-    position: absolute;
-    inset: -32% -32%;
-    background: radial-gradient(circle, rgba(231, 179, 162, 0.38), transparent 68%);
-    animation: glow 2.6s ease-in-out infinite;
-    pointer-events: none;
-  }
-  @keyframes glow {
-    0%, 100% { opacity: 0.5; transform: scale(0.94); }
-    50% { opacity: 1; transform: scale(1.06); }
-  }
-  .hb {
-    position: relative;
-    display: block;
-    width: 100%;
-    transform-origin: 50% 55%;
-    animation: beat 1.5s ease-in-out infinite;
-    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.35));
-  }
-  @keyframes beat {
-    0%, 100% { transform: scale(1); }
-    14% { transform: scale(1.13); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.08); }
-    56% { transform: scale(1); }
-  }
-  .hb text {
-    font-family: "Cormorant Garamond", serif;
-    font-weight: 600;
-    fill: #fbeede;
-  }
-
-  .promesa {
-    font-style: italic;
-    color: #efe0cd;
-    min-height: 3.4em;
-    margin: 6px auto 14px;
-    max-width: 24rem;
-  }
-  .promesa::after {
-    content: "";
-    display: inline-block;
-    width: 1px;
-    height: 1.05em;
-    margin-left: 2px;
-    vertical-align: -0.16em;
-    background: #e7b3a2;
-    animation: caret 0.9s step-end infinite;
-  }
-  .promesa.done::after { display: none; }
-  @keyframes caret { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-  .contador {
-    font-size: 14.5px !important;
-    letter-spacing: 0.8px;
-    color: #d3bfa8 !important;
-    margin-top: 4px;
-  }
-  .contador b { color: #f4e9d7; font-weight: 600; }
 
   @media (max-width: 420px) {
     body { padding: 4.5vh 12px 15vh; }
@@ -420,7 +362,7 @@
     .stage { animation: none; }
     .petal, .petal--burst { display: none; }
     .secret-hint.on { animation: none; }
-    .reveal, .reveal__inner { transition: none; }
+    .reveal, .note { transition: none; }
   }
 </style>
 </head>
@@ -494,32 +436,19 @@
   </div>
 
   <div class="reveal" id="reveal" hidden>
-    <div class="reveal__inner">
-      <div class="reveal__step" data-step="1">
-        <p class="reveal__accent">Katherin</p>
-        <svg class="reveal__heart" viewBox="0 0 24 22" fill="#e7b3a2" aria-hidden="true"><path d="M12 21C-4 11 3-1 12 6 21-1 28 11 12 21Z"/></svg>
-        <p>S&eacute; que ya eres mi novia.</p>
-        <p>Pero nunca te lo ped&iacute; como mereces, as&iacute; que d&eacute;jame hacerlo bien, en serio y con flores en la mano:</p>
-        <p class="reveal__q">&iquest;Quieres ser mi novia?</p>
-        <p class="reveal__soft">No por costumbre. Elegida, cada d&iacute;a.</p>
-        <button class="reveal__yes" id="revealYes" type="button">S&iacute;</button>
-      </div>
+    <div class="note">
+      <svg class="note__sprig" viewBox="0 0 120 120" fill="none" stroke="#7a5638" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <path d="M14 106 C40 88 58 64 70 30"/>
+        <path d="M46 66 C34 60 26 62 18 70 C30 74 40 74 48 68"/>
+        <path d="M56 48 C46 40 38 40 30 46 C40 52 50 54 58 50"/>
+        <path d="M64 32 C58 22 58 14 64 6 C72 14 74 24 70 34"/>
+        <circle cx="72" cy="26" r="5"/>
+      </svg>
 
-      <div class="reveal__step" data-step="2" hidden>
-        <div class="monogram">
-          <svg class="hb" viewBox="0 0 120 110" aria-hidden="true">
-            <path d="M60 101 C8 66 4 30 30 18 C48 10 57 23 60 30 C63 23 72 10 90 18 C116 30 112 66 60 101 Z" fill="#d98a76"/>
-            <text x="44" y="62" text-anchor="middle" font-size="27">M</text>
-            <text x="80" y="62" text-anchor="middle" font-size="27">K</text>
-          </svg>
-        </div>
-        <p class="reveal__accent">Entonces ya es oficial</p>
-        <p>Eres mi novia porque los dos queremos, y te lo voy a recordar seguido, no solo hoy.</p>
-        <p class="reveal__q">Te amo, Katherin.</p>
-        <p class="promesa" id="promesa" aria-live="polite"></p>
-        <p class="contador" id="contador"></p>
-        <p class="sign">Maicol</p>
-      </div>
+      <p class="note__pd">P.D.</p>
+      <p>Si encontraste esto es porque le prestaste atenci&oacute;n a cada l&iacute;nea, y eso ya me alegra el d&iacute;a.</p>
+      <p>Quer&iacute;a dec&iacute;rtelo una vez m&aacute;s, aqu&iacute; donde solo t&uacute; lo lees: <span class="accent">te amo, Katherin, y me quedo contigo</span>.</p>
+      <p class="sign">Maicol</p>
 
       <button class="reveal__back" id="revealBack" type="button">volver a la carta</button>
     </div>
@@ -621,64 +550,24 @@
       var hint = document.getElementById("secretHint");
       setTimeout(function () { hint.classList.add("on"); }, 4500);
 
-      /* ---------- doble toque -> revelacion ---------- */
+      /* ---------- doble toque -> nota escondida ---------- */
       var reveal = document.getElementById("reveal");
-      var yesBtn = document.getElementById("revealYes");
       var backBtn = document.getElementById("revealBack");
-      var step1 = reveal.querySelector('[data-step="1"]');
-      var step2 = reveal.querySelector('[data-step="2"]');
-      var promesaEl = document.getElementById("promesa");
-      var contadorEl = document.getElementById("contador");
       var taps = [];
-
-      /* Fecha en que empezaron. Cambiala por la real. */
-      var INICIO = new Date(2025, 11, 2); // 2 de diciembre de 2025
-      var PROMESA = "Prometo cuidarte, hacerte reír y volver a elegirte cada mañana.";
-      var typing = null;
-
-      function typePromesa() {
-        if (typing) clearInterval(typing);
-        promesaEl.textContent = "";
-        promesaEl.classList.remove("done");
-        if (reduce) { promesaEl.textContent = PROMESA; promesaEl.classList.add("done"); return; }
-        var i = 0;
-        typing = setInterval(function () {
-          promesaEl.textContent = PROMESA.slice(0, ++i);
-          if (i >= PROMESA.length) {
-            clearInterval(typing);
-            typing = null;
-            promesaEl.classList.add("done");
-          }
-        }, 45);
-      }
-
-      function setContador() {
-        var dias = Math.max(0, Math.floor((Date.now() - INICIO.getTime()) / 86400000));
-        contadorEl.innerHTML = "Llevamos <b>" + dias + "</b> días juntos. El resto los vamos contando.";
-      }
 
       function openReveal() {
         if (!reveal.hidden) return;
         if (window.getSelection) { try { window.getSelection().removeAllRanges(); } catch (e) {} }
         hint.classList.remove("on");
-        step1.hidden = false;
-        step2.hidden = true;
         reveal.hidden = false;
         requestAnimationFrame(function () {
           requestAnimationFrame(function () { reveal.classList.add("show"); });
         });
-        burst(14);
+        burst(16);
       }
       function closeReveal() {
         reveal.classList.remove("show");
-        setTimeout(function () {
-          reveal.hidden = true;
-          step1.hidden = false;
-          step2.hidden = true;
-          if (typing) { clearInterval(typing); typing = null; }
-          promesaEl.textContent = "";
-          promesaEl.classList.remove("done");
-        }, 620);
+        setTimeout(function () { reveal.hidden = true; }, 620);
       }
 
       document.addEventListener("click", function (e) {
@@ -690,13 +579,6 @@
         if (taps.length >= 2) { taps = []; openReveal(); }
       });
 
-      yesBtn.addEventListener("click", function () {
-        step1.hidden = true;
-        step2.hidden = false;
-        burst(46);
-        setContador();
-        typePromesa();
-      });
       backBtn.addEventListener("click", closeReveal);
     })();
   </script>
