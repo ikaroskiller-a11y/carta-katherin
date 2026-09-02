@@ -24,9 +24,10 @@
     color: var(--ink);
     line-height: 1.85;
     background:
-      radial-gradient(125% 80% at 50% -8%, #ecd8b2 0%, #c7a679 46%, #9c7a51 100%),
-      linear-gradient(180deg, #b28e63, #876a4a);
-    background-color: #9c7a51;
+      radial-gradient(70% 48% at 50% 33%, rgba(150, 100, 52, 0.42) 0%, rgba(90, 58, 30, 0.12) 45%, transparent 68%),
+      radial-gradient(150% 120% at 50% 0%, #3a2716 0%, #23160c 44%, #120b06 100%),
+      linear-gradient(180deg, #1b120a, #0d0805);
+    background-color: #100a06;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -47,7 +48,13 @@
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background: radial-gradient(115% 78% at 50% 30%, transparent 38%, rgba(38, 22, 8, 0.46) 100%);
+    background: radial-gradient(118% 76% at 50% 30%, transparent 16%, rgba(12, 7, 3, 0.52) 58%, rgba(6, 4, 2, 0.9) 100%);
+    animation: flicker 6s ease-in-out infinite;
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    45% { opacity: 0.92; }
+    70% { opacity: 0.97; }
   }
 
   body::after {
@@ -55,7 +62,7 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.6;
     mix-blend-mode: multiply;
     z-index: 3;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
@@ -122,13 +129,17 @@
     inset: 0;
     border-radius: 3px;
     pointer-events: none;
-    box-shadow: 0 0 100px rgba(74, 43, 18, 0.3) inset;
-    background: radial-gradient(120% 120% at 50% 50%, transparent 58%, rgba(84, 50, 22, 0.22) 100%);
+    box-shadow:
+      0 0 110px rgba(74, 43, 18, 0.34) inset,
+      0 14px 40px rgba(255, 232, 190, 0.10) inset;
+    background:
+      radial-gradient(90% 40% at 50% 0%, rgba(255, 226, 178, 0.16), transparent 70%),
+      radial-gradient(120% 120% at 50% 55%, transparent 52%, rgba(72, 42, 18, 0.32) 100%);
   }
 
-  .sprig { position: absolute; width: clamp(60px, 14vw, 112px); opacity: 0.45; pointer-events: none; }
-  .sprig--top { top: -14px; left: -8px; transform: rotate(-8deg); }
-  .sprig--bottom { bottom: -18px; right: -4px; transform: rotate(174deg); }
+  .rose { position: absolute; pointer-events: none; filter: drop-shadow(0 6px 10px rgba(20, 10, 4, 0.4)); }
+  .rose--tl { top: -24px; left: -20px; width: clamp(78px, 21vw, 132px); transform: rotate(-14deg); opacity: 0.9; }
+  .rose--br { bottom: -26px; right: -16px; width: clamp(62px, 17vw, 108px); transform: rotate(158deg); opacity: 0.72; }
 
   .corner {
     position: absolute;
@@ -210,7 +221,7 @@
     transform: rotate(-7deg);
   }
 
-  .cup { display: block; width: 44px; margin: 16px auto 0; opacity: 0.42; }
+  .filmstrip { display: block; width: clamp(128px, 42vw, 176px); margin: 20px auto 0; opacity: 0.72; transform: rotate(-2deg); }
 
   .secret-hint {
     margin-top: 22px;
@@ -237,7 +248,7 @@
     top: -8vh;
     width: 12px;
     height: 12px;
-    background: radial-gradient(circle at 32% 30%, #e6a99c, #b5654f);
+    background: radial-gradient(circle at 32% 30%, #b98d82, #7a4a41);
     border-radius: 65% 10% 65% 10%;
     opacity: 0;
     will-change: transform, opacity;
@@ -245,11 +256,11 @@
     animation-timing-function: linear;
     animation-iteration-count: infinite;
   }
-  .petal.pale { background: radial-gradient(circle at 32% 30%, #f2ddc9, #d8a97f); }
+  .petal.pale { background: radial-gradient(circle at 32% 30%, #cbb096, #9c7a5f); }
   @keyframes drift {
     0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-    8%   { opacity: 0.72; }
-    92%  { opacity: 0.55; }
+    8%   { opacity: 0.6; }
+    92%  { opacity: 0.45; }
     100% { transform: translate(var(--dx, 0px), 122vh) rotate(var(--spin, 300deg)); opacity: 0; }
   }
 
@@ -258,7 +269,7 @@
     top: 14vh;
     width: 13px;
     height: 13px;
-    background: radial-gradient(circle at 32% 30%, #e6a99c, #b5654f);
+    background: radial-gradient(circle at 32% 30%, #b98d82, #7a4a41);
     border-radius: 65% 10% 65% 10%;
     opacity: 0;
     z-index: 60;
@@ -312,7 +323,7 @@
     padding: 7vh 20px calc(8vh + env(safe-area-inset-bottom, 0px));
     overflow-y: auto;
     background:
-      radial-gradient(circle at 50% 34%, rgba(58, 36, 18, 0.52), rgba(32, 20, 10, 0.78));
+      radial-gradient(circle at 50% 32%, rgba(48, 30, 15, 0.62), rgba(16, 10, 5, 0.9));
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
     opacity: 0;
@@ -403,6 +414,7 @@
     .petal, .petal--burst { display: none; }
     .secret-hint.on { animation: none; }
     .reveal, .note { transition: none; }
+    body::before { animation: none; }
   }
 </style>
 </head>
@@ -434,22 +446,23 @@
         <path d="M4 24 C4 17 8 12 15 12 C13 17 11 20 11 24"/>
       </svg>
 
-      <svg class="sprig sprig--top" viewBox="0 0 120 120" fill="none" stroke="#7a5638" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
-        <path d="M14 106 C40 88 58 64 70 30"/>
-        <path d="M46 66 C34 60 26 62 18 70 C30 74 40 74 48 68"/>
-        <path d="M56 48 C46 40 38 40 30 46 C40 52 50 54 58 50"/>
-        <path d="M64 32 C58 22 58 14 64 6 C72 14 74 24 70 34"/>
-        <circle cx="72" cy="26" r="5"/>
-        <path d="M60 82 C52 78 44 80 38 86 C48 90 56 90 62 84"/>
+      <svg class="rose rose--tl" viewBox="0 0 140 150" aria-hidden="true">
+        <path d="M72 80 C68 102 61 122 44 142" stroke="#57431f" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+        <path d="M63 104 C50 97 39 100 32 111 C45 118 56 116 64 107 Z" fill="#6a5a33"/>
+        <path d="M56 124 C45 119 36 122 31 132 C42 137 51 135 58 126 Z" fill="#5a4c2c"/>
+        <path d="M70 18 C38 22 24 46 28 72 C33 96 55 104 76 99 C100 94 112 70 107 44 C102 22 90 15 70 18 Z" fill="#7c4f4a"/>
+        <path d="M70 33 C48 37 40 53 45 68 C49 83 65 88 80 83 C95 78 100 62 95 49 C90 36 84 30 70 33 Z" fill="#8b5f58"/>
+        <path d="M68 46 C56 48 51 58 56 67 C61 76 73 76 79 69 C85 63 84 52 77 48 C74 46 71 45 68 46 Z" fill="#6d453e"/>
+        <path d="M67 55 C61 57 60 63 63 68 C67 73 74 71 76 65 C77 60 73 53 67 55 Z" fill="#583832"/>
       </svg>
 
-      <svg class="sprig sprig--bottom" viewBox="0 0 120 120" fill="none" stroke="#7a5638" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
-        <path d="M14 106 C40 88 58 64 70 30"/>
-        <path d="M46 66 C34 60 26 62 18 70 C30 74 40 74 48 68"/>
-        <path d="M56 48 C46 40 38 40 30 46 C40 52 50 54 58 50"/>
-        <path d="M64 32 C58 22 58 14 64 6 C72 14 74 24 70 34"/>
-        <circle cx="72" cy="26" r="5"/>
-        <path d="M60 82 C52 78 44 80 38 86 C48 90 56 90 62 84"/>
+      <svg class="rose rose--br" viewBox="0 0 140 150" aria-hidden="true">
+        <path d="M72 80 C68 102 61 122 44 142" stroke="#57431f" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+        <path d="M63 104 C50 97 39 100 32 111 C45 118 56 116 64 107 Z" fill="#6a5a33"/>
+        <path d="M70 18 C38 22 24 46 28 72 C33 96 55 104 76 99 C100 94 112 70 107 44 C102 22 90 15 70 18 Z" fill="#7c4f4a"/>
+        <path d="M70 33 C48 37 40 53 45 68 C49 83 65 88 80 83 C95 78 100 62 95 49 C90 36 84 30 70 33 Z" fill="#8b5f58"/>
+        <path d="M68 46 C56 48 51 58 56 67 C61 76 73 76 79 69 C85 63 84 52 77 48 C74 46 71 45 68 46 Z" fill="#6d453e"/>
+        <path d="M67 55 C61 57 60 63 63 68 C67 73 74 71 76 65 C77 60 73 53 67 55 Z" fill="#583832"/>
       </svg>
 
       <div class="content">
@@ -479,12 +492,33 @@
 
         <div class="seal" aria-hidden="true">M</div>
 
-        <svg class="cup" viewBox="0 0 64 52" fill="none" stroke="#6f4321" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <path d="M8 14 H44 V30 C44 40 36 46 26 46 C16 46 8 40 8 30 Z"/>
-          <path d="M44 18 C54 18 58 24 54 30 C52 33 48 34 45 33"/>
-          <path d="M20 6 C18 9 18 11 20 14"/>
-          <path d="M28 4 C26 8 26 10 28 14"/>
-          <path d="M36 6 C34 9 34 11 36 14"/>
+        <svg class="filmstrip" viewBox="0 0 176 46" aria-hidden="true">
+          <rect x="2" y="4" width="172" height="38" rx="2.5" fill="#241812"/>
+          <g fill="#e9dcc2" opacity="0.55">
+            <rect x="8" y="7.5" width="6" height="4" rx="1"/>
+            <rect x="24" y="7.5" width="6" height="4" rx="1"/>
+            <rect x="40" y="7.5" width="6" height="4" rx="1"/>
+            <rect x="56" y="7.5" width="6" height="4" rx="1"/>
+            <rect x="72" y="7.5" width="6" height="4" rx="1"/>
+            <rect x="88" y="7.5" width="6" height="4" rx="1"/>
+            <rect x="104" y="7.5" width="6" height="4" rx="1"/>
+            <rect x="120" y="7.5" width="6" height="4" rx="1"/>
+            <rect x="136" y="7.5" width="6" height="4" rx="1"/>
+            <rect x="152" y="7.5" width="6" height="4" rx="1"/>
+            <rect x="8" y="34.5" width="6" height="4" rx="1"/>
+            <rect x="24" y="34.5" width="6" height="4" rx="1"/>
+            <rect x="40" y="34.5" width="6" height="4" rx="1"/>
+            <rect x="56" y="34.5" width="6" height="4" rx="1"/>
+            <rect x="72" y="34.5" width="6" height="4" rx="1"/>
+            <rect x="88" y="34.5" width="6" height="4" rx="1"/>
+            <rect x="104" y="34.5" width="6" height="4" rx="1"/>
+            <rect x="120" y="34.5" width="6" height="4" rx="1"/>
+            <rect x="136" y="34.5" width="6" height="4" rx="1"/>
+            <rect x="152" y="34.5" width="6" height="4" rx="1"/>
+          </g>
+          <rect x="12" y="15" width="46" height="16" fill="#caa87b"/>
+          <rect x="65" y="15" width="46" height="16" fill="#a9835f"/>
+          <rect x="118" y="15" width="46" height="16" fill="#d9be93"/>
         </svg>
 
         <p class="secret-hint" id="secretHint">toca la pantalla dos veces</p>
