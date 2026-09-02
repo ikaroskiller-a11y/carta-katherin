@@ -246,7 +246,7 @@
   .music:active { transform: scale(0.94); }
   .music svg { width: 20px; height: 20px; }
   .music .bars { display: none; }
-  .music.playing .note { display: none; }
+  .music.playing .ico-note { display: none; }
   .music.playing .bars { display: block; }
   .music.hint { animation: pulse 2.4s ease-in-out infinite; }
   @keyframes pulse {
@@ -371,7 +371,7 @@
 
   <audio id="song" src="musica.mp3" preload="auto"></audio>
   <button class="music hint" id="musicBtn" type="button" aria-label="Reproducir m&uacute;sica">
-    <svg class="note" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 17V5l10-2v12"/><circle cx="6" cy="17" r="3"/><circle cx="16" cy="15" r="3"/></svg>
+    <svg class="ico-note" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 17V5l10-2v12"/><circle cx="6" cy="17" r="3"/><circle cx="16" cy="15" r="3"/></svg>
     <svg class="bars" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="9" width="3" height="6"/><rect x="10" y="5" width="3" height="14"/><rect x="16" y="11" width="3" height="4"/></svg>
   </button>
 
