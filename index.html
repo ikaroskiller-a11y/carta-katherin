@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Para la señorita Katherin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,7 +18,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html, body { min-height: 100%; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
     font-family: "EB Garamond", Georgia, serif;
     color: var(--ink);
@@ -30,12 +30,16 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 6vh 18px 12vh;
+    padding: 6vh 18px 14vh;
+    min-height: 100vh;
+    min-height: 100dvh;
     position: relative;
     overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
-  /* grano de papel sobre todo el fondo */
   body::after {
     content: "";
     position: fixed;
@@ -43,16 +47,25 @@
     pointer-events: none;
     opacity: 0.5;
     mix-blend-mode: multiply;
+    z-index: 3;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  }
+
+  #petals {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
   }
 
   .stage {
     position: relative;
+    z-index: 2;
     width: 100%;
     max-width: 640px;
   }
 
-  /* manchas de cafe */
   .ring {
     position: absolute;
     border-radius: 50%;
@@ -61,7 +74,7 @@
     pointer-events: none;
   }
   .ring--1 { width: 160px; height: 150px; top: -46px; right: 14px; transform: rotate(-14deg); border-width: 9px; border-color: rgba(111,67,33,0.16); }
-  .ring--2 { width: 96px; height: 92px; bottom: 40px; left: -34px; transform: rotate(8deg); border-color: rgba(111,67,33,0.13); }
+  .ring--2 { width: 96px; height: 92px; bottom: 40px; left: -20px; transform: rotate(8deg); border-color: rgba(111,67,33,0.13); }
   .ring--3 { width: 52px; height: 50px; bottom: -18px; right: 90px; border-width: 5px; border-color: rgba(111,67,33,0.12); }
 
   .card {
@@ -70,7 +83,7 @@
       radial-gradient(80% 60% at 20% 12%, rgba(255,255,255,0.35), transparent 60%),
       linear-gradient(160deg, var(--paper), var(--paper-shade));
     border-radius: 3px;
-    padding: clamp(34px, 7.5vw, 82px) clamp(28px, 7vw, 74px);
+    padding: clamp(30px, 7.5vw, 82px) clamp(24px, 6.5vw, 74px);
     box-shadow:
       0 2px 0 rgba(255,255,255,0.35) inset,
       0 -30px 60px rgba(120, 80, 40, 0.10) inset,
@@ -85,7 +98,6 @@
     border-radius: 2px;
     pointer-events: none;
   }
-  /* veladura / envejecido en los bordes */
   .card::after {
     content: "";
     position: absolute;
@@ -96,9 +108,9 @@
     background: radial-gradient(120% 120% at 50% 50%, transparent 62%, rgba(90, 55, 25, 0.18) 100%);
   }
 
-  .sprig { position: absolute; width: clamp(70px, 16vw, 120px); opacity: 0.5; pointer-events: none; }
-  .sprig--top { top: -14px; left: -10px; transform: rotate(-8deg); }
-  .sprig--bottom { bottom: -20px; right: -6px; transform: rotate(174deg); }
+  .sprig { position: absolute; width: clamp(64px, 15vw, 120px); opacity: 0.5; pointer-events: none; }
+  .sprig--top { top: -14px; left: -8px; transform: rotate(-8deg); }
+  .sprig--bottom { bottom: -18px; right: -4px; transform: rotate(174deg); }
 
   .content { position: relative; z-index: 2; }
 
@@ -112,19 +124,13 @@
   h1 {
     font-family: "Cormorant Garamond", serif;
     font-weight: 500;
-    font-size: clamp(27px, 6vw, 40px);
+    font-size: clamp(26px, 6vw, 40px);
     text-align: center;
     letter-spacing: 1px;
     color: var(--ink);
-    margin-bottom: 26px;
+    margin-bottom: 24px;
   }
-  .rule {
-    display: block;
-    width: 120px;
-    height: 14px;
-    margin: 0 auto 34px;
-    opacity: 0.6;
-  }
+  .rule { display: block; width: 120px; height: 14px; margin: 0 auto 32px; opacity: 0.6; }
 
   p {
     font-size: clamp(16.5px, 2.4vw, 19px);
@@ -145,88 +151,213 @@
     font-weight: 500;
     font-size: clamp(18px, 3vw, 22px);
     color: var(--coffee);
-    margin-top: 30px;
+    margin-top: 28px;
     margin-bottom: 6px;
   }
   .sign {
     font-family: "Pinyon Script", cursive;
-    font-size: clamp(34px, 8vw, 48px);
+    font-size: clamp(34px, 9vw, 48px);
     color: var(--ink);
     line-height: 1;
     margin-top: 4px;
   }
 
-  .cup { display: block; width: 58px; margin: 22px auto 0; opacity: 0.55; }
+  .cup { display: block; width: 56px; margin: 20px auto 0; opacity: 0.55; }
 
-  /* entrada suave */
+  .secret-hint {
+    margin-top: 22px;
+    text-align: center;
+    font-style: italic;
+    font-size: 13.5px;
+    letter-spacing: 0.5px;
+    color: rgba(111, 67, 33, 0.55);
+    opacity: 0;
+    transition: opacity 1.4s ease;
+  }
+  .secret-hint.on { opacity: 1; animation: hintPulse 3s ease-in-out infinite; }
+  @keyframes hintPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+
   .stage { animation: rise 1100ms ease-out both; }
   @keyframes rise {
     from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* petalos a la deriva */
+  /* petalos */
   .petal {
-    position: fixed;
-    top: -30px;
-    width: 14px;
-    height: 14px;
-    background: radial-gradient(circle at 30% 30%, #d98f86, #b5654f);
-    border-radius: 60% 10% 60% 10%;
+    position: absolute;
+    top: -8vh;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle at 32% 30%, #e6a99c, #b5654f);
+    border-radius: 65% 10% 65% 10%;
     opacity: 0;
+    will-change: transform, opacity;
+    animation-name: drift;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .petal.pale { background: radial-gradient(circle at 32% 30%, #f2ddc9, #d8a97f); }
+  @keyframes drift {
+    0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    8%   { opacity: 0.72; }
+    92%  { opacity: 0.55; }
+    100% { transform: translate(var(--dx, 0px), 122vh) rotate(var(--spin, 300deg)); opacity: 0; }
+  }
+
+  .petal--burst {
+    position: fixed;
+    top: 14vh;
+    width: 13px;
+    height: 13px;
+    background: radial-gradient(circle at 32% 30%, #e6a99c, #b5654f);
+    border-radius: 65% 10% 65% 10%;
+    opacity: 0;
+    z-index: 60;
     pointer-events: none;
-    animation: fall linear infinite;
+    animation: burst var(--d, 3s) ease-in forwards;
   }
-  .petal:nth-child(1) { left: 12%; animation-duration: 19s; animation-delay: 0s; }
-  .petal:nth-child(2) { left: 43%; animation-duration: 24s; animation-delay: 6s; width: 10px; height: 10px; }
-  .petal:nth-child(3) { left: 71%; animation-duration: 21s; animation-delay: 3s; }
-  .petal:nth-child(4) { left: 88%; animation-duration: 27s; animation-delay: 11s; width: 9px; height: 9px; }
-  @keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.7; }
-    90% { opacity: 0.6; }
-    100% { transform: translateY(112vh) rotate(320deg); opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .stage { animation: none; }
-    .petal { display: none; }
+  @keyframes burst {
+    0%   { transform: translate(0, -10vh) rotate(0deg); opacity: 0; }
+    12%  { opacity: 0.95; }
+    100% { transform: translate(var(--dx, 0px), 96vh) rotate(var(--spin, 360deg)); opacity: 0; }
   }
 
   /* control de musica */
   .music {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 10;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    z-index: 40;
     width: 46px;
     height: 46px;
     border-radius: 50%;
     border: 1px solid rgba(120, 84, 52, 0.5);
-    background: rgba(242, 230, 207, 0.9);
+    background: rgba(242, 230, 207, 0.92);
     color: var(--coffee);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 6px 18px rgba(60, 38, 18, 0.28);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition: transform 0.2s ease;
   }
-  .music:hover { transform: scale(1.06); }
+  .music:active { transform: scale(0.94); }
   .music svg { width: 20px; height: 20px; }
   .music .bars { display: none; }
   .music.playing .note { display: none; }
   .music.playing .bars { display: block; }
-  .music.hint {
-    animation: pulse 2.4s ease-in-out infinite;
-  }
+  .music.hint { animation: pulse 2.4s ease-in-out infinite; }
   @keyframes pulse {
     0%, 100% { box-shadow: 0 6px 18px rgba(60, 38, 18, 0.28); }
     50% { box-shadow: 0 6px 18px rgba(60, 38, 18, 0.28), 0 0 0 10px rgba(138, 90, 60, 0.12); }
   }
+
+  /* revelacion */
+  .reveal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8vh 22px calc(9vh + env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    background:
+      radial-gradient(circle at 50% 32%, rgba(74, 44, 22, 0.90), rgba(20, 12, 8, 0.96));
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .reveal[hidden] { display: none; }
+  .reveal.show { opacity: 1; }
+
+  .reveal__inner {
+    max-width: 30rem;
+    width: 100%;
+    text-align: center;
+    color: #f4e9d7;
+    transform: translateY(14px) scale(0.97);
+    transition: transform 0.6s ease;
+  }
+  .reveal.show .reveal__inner { transform: none; }
+
+  .reveal__accent {
+    font-family: "Pinyon Script", cursive;
+    font-size: clamp(30px, 9vw, 44px);
+    color: #e7b3a2;
+    margin-bottom: 10px;
+  }
+  .reveal__heart { width: 26px; margin: 6px auto 20px; display: block; opacity: 0.9; }
+  .reveal p {
+    font-size: clamp(16.5px, 4.4vw, 19px);
+    line-height: 1.75;
+    margin-bottom: 16px;
+    color: #efe3d1;
+  }
+  .reveal__q {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 500;
+    font-size: clamp(24px, 7.5vw, 34px);
+    color: #fff;
+    margin: 20px 0 12px;
+    letter-spacing: 0.4px;
+  }
+  .reveal__soft { font-style: italic; color: #d9c6b1; }
+  .reveal .sign { color: #f4e9d7; }
+
+  .reveal__yes {
+    margin-top: 22px;
+    min-height: 52px;
+    padding: 14px 52px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 21px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #2a1a10;
+    background: #ecdcc0;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .reveal__yes:hover { background: #f6ead2; }
+  .reveal__yes:active { transform: scale(0.95); }
+
+  .reveal__back {
+    display: block;
+    margin: 28px auto 0;
+    background: none;
+    border: none;
+    color: rgba(244, 233, 215, 0.6);
+    font-family: "EB Garamond", serif;
+    font-size: 15px;
+    font-style: italic;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .reveal__step[hidden] { display: none; }
+
+  @media (max-width: 420px) {
+    body { padding: 4.5vh 12px 15vh; }
+    .content p { margin-bottom: 17px; }
+    .ring--1 { right: 6px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage { animation: none; }
+    .petal, .petal--burst { display: none; }
+    .secret-hint.on { animation: none; }
+    .reveal, .reveal__inner { transition: none; }
+  }
 </style>
 </head>
 <body>
-  <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
+  <div id="petals" aria-hidden="true"></div>
 
   <audio id="song" src="musica.mp3" preload="auto"></audio>
   <button class="music hint" id="musicBtn" type="button" aria-label="Reproducir m&uacute;sica">
@@ -288,51 +419,176 @@
           <path d="M28 4 C26 8 26 10 28 14"/>
           <path d="M36 6 C34 9 34 11 36 14"/>
         </svg>
+
+        <p class="secret-hint" id="secretHint">toca la pantalla tres veces</p>
       </div>
     </article>
   </div>
 
+  <div class="reveal" id="reveal" hidden>
+    <div class="reveal__inner">
+      <div class="reveal__step" data-step="1">
+        <p class="reveal__accent">Katherin</p>
+        <svg class="reveal__heart" viewBox="0 0 24 22" fill="#e7b3a2" aria-hidden="true"><path d="M12 21C-4 11 3-1 12 6 21-1 28 11 12 21Z"/></svg>
+        <p>S&eacute; que ya eres mi novia.</p>
+        <p>Pero nunca te lo ped&iacute; como mereces, as&iacute; que d&eacute;jame hacerlo bien, en serio y con flores en la mano:</p>
+        <p class="reveal__q">&iquest;Quieres ser mi novia?</p>
+        <p class="reveal__soft">No por costumbre. Elegida, cada d&iacute;a.</p>
+        <button class="reveal__yes" id="revealYes" type="button">S&iacute;</button>
+      </div>
+
+      <div class="reveal__step" data-step="2" hidden>
+        <p class="reveal__accent">Entonces ya es oficial</p>
+        <svg class="reveal__heart" viewBox="0 0 24 22" fill="#e7b3a2" aria-hidden="true"><path d="M12 21C-4 11 3-1 12 6 21-1 28 11 12 21Z"/></svg>
+        <p>Eres mi novia porque los dos queremos, y yo te lo voy a recordar seguido, no solo hoy.</p>
+        <p class="reveal__q">Te amo, Katherin.</p>
+        <p class="sign">Maicol</p>
+      </div>
+
+      <button class="reveal__back" id="revealBack" type="button">volver a la carta</button>
+    </div>
+  </div>
+
   <script>
     (function () {
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* ---------- petalos ambiente ---------- */
+      var field = document.getElementById("petals");
+      function rand(a, b) { return a + Math.random() * (b - a); }
+      function edgeLeft() {
+        // sesgado a las orillas
+        return Math.random() < 0.5 ? rand(0, 16) : rand(84, 100);
+      }
+      function spawnAmbient() {
+        var p = document.createElement("span");
+        p.className = "petal" + (Math.random() < 0.35 ? " pale" : "");
+        var size = rand(7, 16);
+        p.style.left = edgeLeft() + "%";
+        p.style.width = size + "px";
+        p.style.height = size + "px";
+        p.style.setProperty("--dx", rand(-40, 40).toFixed(0) + "px");
+        p.style.setProperty("--spin", rand(180, 460).toFixed(0) + "deg");
+        var dur = rand(13, 27);
+        p.style.animationDuration = dur + "s";
+        p.style.animationDelay = (-rand(0, dur)).toFixed(1) + "s";
+        field.appendChild(p);
+      }
+      if (!reduce) {
+        for (var i = 0; i < 18; i++) spawnAmbient();
+      }
+
+      function burst(n) {
+        if (reduce) return;
+        for (var i = 0; i < n; i++) {
+          (function () {
+            var p = document.createElement("span");
+            p.className = "petal--burst" + (Math.random() < 0.35 ? " pale" : "");
+            var size = rand(8, 17);
+            p.style.left = rand(6, 94) + "%";
+            p.style.width = size + "px";
+            p.style.height = size + "px";
+            p.style.setProperty("--dx", rand(-140, 140).toFixed(0) + "px");
+            p.style.setProperty("--spin", rand(240, 620).toFixed(0) + "deg");
+            var d = rand(2.4, 4.2);
+            p.style.setProperty("--d", d + "s");
+            p.style.animationDelay = rand(0, 0.9).toFixed(2) + "s";
+            document.body.appendChild(p);
+            setTimeout(function () { p.remove(); }, (d + 1.2) * 1000);
+          })();
+        }
+      }
+
+      /* ---------- musica ---------- */
       var song = document.getElementById("song");
       var btn = document.getElementById("musicBtn");
       var START = 19;
       var started = false;
 
       song.addEventListener("loadedmetadata", function () {
-        try { song.currentTime = START; } catch (e) {}
+        try { if (song.currentTime < START) song.currentTime = START; } catch (e) {}
       });
       song.addEventListener("ended", function () {
         try { song.currentTime = START; song.play(); } catch (e) {}
       });
 
-      function play() {
-        if (song.currentTime < START) {
-          try { song.currentTime = START; } catch (e) {}
+      function playSong() {
+        try { if (song.currentTime < START) song.currentTime = START; } catch (e) {}
+        var pr = song.play();
+        if (pr && pr.then) {
+          pr.then(function () {
+            started = true;
+            btn.classList.add("playing");
+            btn.classList.remove("hint");
+          }).catch(function () {});
         }
-        song.play().then(function () {
-          started = true;
-          btn.classList.add("playing");
-          btn.classList.remove("hint");
-        }).catch(function () {});
       }
-      function pause() {
+      function pauseSong() {
         song.pause();
         btn.classList.remove("playing");
       }
 
       btn.addEventListener("click", function (e) {
         e.stopPropagation();
-        if (song.paused) { play(); } else { pause(); }
+        if (song.paused) { playSong(); } else { pauseSong(); }
       });
 
       function firstTouch() {
-        if (!started) { play(); }
-        document.removeEventListener("pointerdown", firstTouch);
-        document.removeEventListener("keydown", firstTouch);
+        if (!started) playSong();
+        window.removeEventListener("pointerdown", firstTouch);
+        window.removeEventListener("keydown", firstTouch);
       }
-      document.addEventListener("pointerdown", firstTouch);
-      document.addEventListener("keydown", firstTouch);
+      window.addEventListener("pointerdown", firstTouch);
+      window.addEventListener("keydown", firstTouch);
+
+      /* ---------- pista secreta ---------- */
+      var hint = document.getElementById("secretHint");
+      setTimeout(function () { hint.classList.add("on"); }, 4500);
+
+      /* ---------- triple toque -> revelacion ---------- */
+      var reveal = document.getElementById("reveal");
+      var yesBtn = document.getElementById("revealYes");
+      var backBtn = document.getElementById("revealBack");
+      var step1 = reveal.querySelector('[data-step="1"]');
+      var step2 = reveal.querySelector('[data-step="2"]');
+      var taps = [];
+
+      function openReveal() {
+        if (!reveal.hidden) return;
+        if (window.getSelection) { try { window.getSelection().removeAllRanges(); } catch (e) {} }
+        hint.classList.remove("on");
+        step1.hidden = false;
+        step2.hidden = true;
+        reveal.hidden = false;
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { reveal.classList.add("show"); });
+        });
+        burst(14);
+      }
+      function closeReveal() {
+        reveal.classList.remove("show");
+        setTimeout(function () {
+          reveal.hidden = true;
+          step1.hidden = false;
+          step2.hidden = true;
+        }, 620);
+      }
+
+      document.addEventListener("click", function (e) {
+        if (!reveal.hidden) return;
+        if (e.target.closest("#reveal") || e.target.closest(".music")) return;
+        var now = Date.now();
+        taps = taps.filter(function (t) { return now - t < 1500; });
+        taps.push(now);
+        if (taps.length >= 3) { taps = []; openReveal(); }
+      });
+
+      yesBtn.addEventListener("click", function () {
+        step1.hidden = true;
+        step2.hidden = false;
+        burst(40);
+      });
+      backBtn.addEventListener("click", closeReveal);
     })();
   </script>
 </body>
