@@ -191,10 +191,48 @@
     .stage { animation: none; }
     .petal { display: none; }
   }
+
+  /* control de musica */
+  .music {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(120, 84, 52, 0.5);
+    background: rgba(242, 230, 207, 0.9);
+    color: var(--coffee);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(60, 38, 18, 0.28);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .music:hover { transform: scale(1.06); }
+  .music svg { width: 20px; height: 20px; }
+  .music .bars { display: none; }
+  .music.playing .note { display: none; }
+  .music.playing .bars { display: block; }
+  .music.hint {
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 6px 18px rgba(60, 38, 18, 0.28); }
+    50% { box-shadow: 0 6px 18px rgba(60, 38, 18, 0.28), 0 0 0 10px rgba(138, 90, 60, 0.12); }
+  }
 </style>
 </head>
 <body>
   <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
+
+  <audio id="song" src="musica.mp3" preload="auto"></audio>
+  <button class="music hint" id="musicBtn" type="button" aria-label="Reproducir m&uacute;sica">
+    <svg class="note" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 17V5l10-2v12"/><circle cx="6" cy="17" r="3"/><circle cx="16" cy="15" r="3"/></svg>
+    <svg class="bars" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="9" width="3" height="6"/><rect x="10" y="5" width="3" height="14"/><rect x="16" y="11" width="3" height="4"/></svg>
+  </button>
 
   <div class="stage">
     <span class="ring ring--1"></span>
@@ -253,5 +291,49 @@
       </div>
     </article>
   </div>
+
+  <script>
+    (function () {
+      var song = document.getElementById("song");
+      var btn = document.getElementById("musicBtn");
+      var START = 19;
+      var started = false;
+
+      song.addEventListener("loadedmetadata", function () {
+        try { song.currentTime = START; } catch (e) {}
+      });
+      song.addEventListener("ended", function () {
+        try { song.currentTime = START; song.play(); } catch (e) {}
+      });
+
+      function play() {
+        if (song.currentTime < START) {
+          try { song.currentTime = START; } catch (e) {}
+        }
+        song.play().then(function () {
+          started = true;
+          btn.classList.add("playing");
+          btn.classList.remove("hint");
+        }).catch(function () {});
+      }
+      function pause() {
+        song.pause();
+        btn.classList.remove("playing");
+      }
+
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (song.paused) { play(); } else { pause(); }
+      });
+
+      function firstTouch() {
+        if (!started) { play(); }
+        document.removeEventListener("pointerdown", firstTouch);
+        document.removeEventListener("keydown", firstTouch);
+      }
+      document.addEventListener("pointerdown", firstTouch);
+      document.addEventListener("keydown", firstTouch);
+    })();
+  </script>
 </body>
 </html>
