@@ -38,6 +38,7 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
     user-select: none;
+    touch-action: manipulation;
   }
 
   body::after {
@@ -343,6 +344,72 @@
 
   .reveal__step[hidden] { display: none; }
 
+  .monogram {
+    position: relative;
+    width: clamp(120px, 34vw, 168px);
+    margin: 4px auto 18px;
+  }
+  .monogram::before {
+    content: "";
+    position: absolute;
+    inset: -32% -32%;
+    background: radial-gradient(circle, rgba(231, 179, 162, 0.38), transparent 68%);
+    animation: glow 2.6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes glow {
+    0%, 100% { opacity: 0.5; transform: scale(0.94); }
+    50% { opacity: 1; transform: scale(1.06); }
+  }
+  .hb {
+    position: relative;
+    display: block;
+    width: 100%;
+    transform-origin: 50% 55%;
+    animation: beat 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.35));
+  }
+  @keyframes beat {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.13); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.08); }
+    56% { transform: scale(1); }
+  }
+  .hb text {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 600;
+    fill: #fbeede;
+  }
+
+  .promesa {
+    font-style: italic;
+    color: #efe0cd;
+    min-height: 3.4em;
+    margin: 6px auto 14px;
+    max-width: 24rem;
+  }
+  .promesa::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 1.05em;
+    margin-left: 2px;
+    vertical-align: -0.16em;
+    background: #e7b3a2;
+    animation: caret 0.9s step-end infinite;
+  }
+  .promesa.done::after { display: none; }
+  @keyframes caret { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  .contador {
+    font-size: 14.5px !important;
+    letter-spacing: 0.8px;
+    color: #d3bfa8 !important;
+    margin-top: 4px;
+  }
+  .contador b { color: #f4e9d7; font-weight: 600; }
+
   @media (max-width: 420px) {
     body { padding: 4.5vh 12px 15vh; }
     .content p { margin-bottom: 17px; }
@@ -421,7 +488,7 @@
           <path d="M36 6 C34 9 34 11 36 14"/>
         </svg>
 
-        <p class="secret-hint" id="secretHint">toca la pantalla tres veces</p>
+        <p class="secret-hint" id="secretHint">toca la pantalla dos veces</p>
       </div>
     </article>
   </div>
@@ -439,10 +506,18 @@
       </div>
 
       <div class="reveal__step" data-step="2" hidden>
+        <div class="monogram">
+          <svg class="hb" viewBox="0 0 120 110" aria-hidden="true">
+            <path d="M60 101 C8 66 4 30 30 18 C48 10 57 23 60 30 C63 23 72 10 90 18 C116 30 112 66 60 101 Z" fill="#d98a76"/>
+            <text x="44" y="62" text-anchor="middle" font-size="27">M</text>
+            <text x="80" y="62" text-anchor="middle" font-size="27">K</text>
+          </svg>
+        </div>
         <p class="reveal__accent">Entonces ya es oficial</p>
-        <svg class="reveal__heart" viewBox="0 0 24 22" fill="#e7b3a2" aria-hidden="true"><path d="M12 21C-4 11 3-1 12 6 21-1 28 11 12 21Z"/></svg>
-        <p>Eres mi novia porque los dos queremos, y yo te lo voy a recordar seguido, no solo hoy.</p>
+        <p>Eres mi novia porque los dos queremos, y te lo voy a recordar seguido, no solo hoy.</p>
         <p class="reveal__q">Te amo, Katherin.</p>
+        <p class="promesa" id="promesa" aria-live="polite"></p>
+        <p class="contador" id="contador"></p>
         <p class="sign">Maicol</p>
       </div>
 
@@ -546,13 +621,41 @@
       var hint = document.getElementById("secretHint");
       setTimeout(function () { hint.classList.add("on"); }, 4500);
 
-      /* ---------- triple toque -> revelacion ---------- */
+      /* ---------- doble toque -> revelacion ---------- */
       var reveal = document.getElementById("reveal");
       var yesBtn = document.getElementById("revealYes");
       var backBtn = document.getElementById("revealBack");
       var step1 = reveal.querySelector('[data-step="1"]');
       var step2 = reveal.querySelector('[data-step="2"]');
+      var promesaEl = document.getElementById("promesa");
+      var contadorEl = document.getElementById("contador");
       var taps = [];
+
+      /* Fecha en que empezaron. Cambiala por la real. */
+      var INICIO = new Date(2025, 11, 2); // 2 de diciembre de 2025
+      var PROMESA = "Prometo cuidarte, hacerte reír y volver a elegirte cada mañana.";
+      var typing = null;
+
+      function typePromesa() {
+        if (typing) clearInterval(typing);
+        promesaEl.textContent = "";
+        promesaEl.classList.remove("done");
+        if (reduce) { promesaEl.textContent = PROMESA; promesaEl.classList.add("done"); return; }
+        var i = 0;
+        typing = setInterval(function () {
+          promesaEl.textContent = PROMESA.slice(0, ++i);
+          if (i >= PROMESA.length) {
+            clearInterval(typing);
+            typing = null;
+            promesaEl.classList.add("done");
+          }
+        }, 45);
+      }
+
+      function setContador() {
+        var dias = Math.max(0, Math.floor((Date.now() - INICIO.getTime()) / 86400000));
+        contadorEl.innerHTML = "Llevamos <b>" + dias + "</b> días juntos. El resto los vamos contando.";
+      }
 
       function openReveal() {
         if (!reveal.hidden) return;
@@ -572,6 +675,9 @@
           reveal.hidden = true;
           step1.hidden = false;
           step2.hidden = true;
+          if (typing) { clearInterval(typing); typing = null; }
+          promesaEl.textContent = "";
+          promesaEl.classList.remove("done");
         }, 620);
       }
 
@@ -579,15 +685,17 @@
         if (!reveal.hidden) return;
         if (e.target.closest("#reveal") || e.target.closest(".music")) return;
         var now = Date.now();
-        taps = taps.filter(function (t) { return now - t < 1500; });
+        taps = taps.filter(function (t) { return now - t < 1200; });
         taps.push(now);
-        if (taps.length >= 3) { taps = []; openReveal(); }
+        if (taps.length >= 2) { taps = []; openReveal(); }
       });
 
       yesBtn.addEventListener("click", function () {
         step1.hidden = true;
         step2.hidden = false;
-        burst(40);
+        burst(46);
+        setContador();
+        typePromesa();
       });
       backBtn.addEventListener("click", closeReveal);
     })();
